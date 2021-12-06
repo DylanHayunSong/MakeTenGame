@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager : SingletonBehaviour<GameManager>
 {
-    // Start is called before the first frame update
-    void Start()
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
+    private void Initialize()
     {
-        
-    }
+        GameObject gameManager = new GameObject("GameManager");
+        gameManager.AddComponent<GameManager>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameObject sceneChangeManager = new GameObject("SceneChangeManager");
+        sceneChangeManager.AddComponent<SceneChangeManager>();
+        sceneChangeManager.transform.parent = gameManager.transform;
     }
 }
